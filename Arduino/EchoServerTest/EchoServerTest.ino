@@ -19,10 +19,10 @@
  */
 
 #define MACADDRESS 0x00,0x01,0x02,0x03,0x04,0x05
-#define MYIPADDR 10,0,0,50
+#define MYIPADDR 192,168,0,103
 #define MYIPMASK 255,255,255,0
-#define MYDNS 10,0,0,1
-#define MYGW 10,0,0,1
+#define MYDNS 192,168,0,1
+#define MYGW 192,168,0,1
 #define LISTENPORT 1000
 #define UARTBAUD 115200
 
