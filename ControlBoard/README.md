@@ -8,3 +8,4 @@ Outputs from the FPGA are
 * Relays for clutch control
 * DAC for motor controller for wing flapping motor
 
+Pluto board 12 V
