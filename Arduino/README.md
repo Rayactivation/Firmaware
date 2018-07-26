@@ -11,4 +11,4 @@ This folder contains some test sketches for each of these, and the main program 
 
 Address of the device will be 10.0.0.50
 
-The device will read in a 8 x 8 array of values from teh IR camera and send them to the main animation computer via OSC UDP packets every x seconds.  The animation computer will use this information as a heat map input to detect when the Ray passes over 1, 2 or more people.  This will be the main input for the animation.
+The device will read in a 8 x 8 array of values from the IR camera and send them to the main animation computer via OSC UDP packets every x seconds.  The animation computer will use this information as a heat map input to detect when the Ray passes over 1, 2 or more people.  This will be the main input for the animation.
