@@ -20,8 +20,8 @@ GridEYE grideye;
 EthernetUDP Udp;
 
 //Local testing
-//IPAddress ip(10, 0, 0, 50);
-IPAddress ip(192, 168, 0, 103);
+IPAddress ip(10, 0, 0, 50);
+//IPAddress ip(192, 168, 0, 103);
 
 byte mac[] = {
   0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xEE
@@ -29,11 +29,11 @@ byte mac[] = {
 
 //Destination IP
 //NUC address
-//IPAddress outIp(10, 0, 0, 20);
+//IPAddress outIp(10, 0, 0, 10);
 //Tony Test Computer
-//IPAddress outIp(10, 0, 0, 70);
+IPAddress outIp(10, 0, 0, 60);
 //Test local
-IPAddress outIp(192, 168, 0, 102);
+//IPAddress outIp(192, 168, 0, 102);
 
 const unsigned int outPort = 5000;
 const unsigned int inPort = 9000;

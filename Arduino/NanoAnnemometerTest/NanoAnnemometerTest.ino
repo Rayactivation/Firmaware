@@ -48,7 +48,7 @@ float windSpeedMax = 32; // Wind speed in meters/sec corresponding to maximum vo
 
 void setup() 
 {              
-  Serial.begin(9600);  //Start the serial connection
+  Serial.begin(115200);  //Start the serial connection
 }
 
 
