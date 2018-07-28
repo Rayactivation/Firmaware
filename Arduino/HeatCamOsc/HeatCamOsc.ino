@@ -36,16 +36,14 @@ IPAddress outIp(10, 0, 0, 60);
 //IPAddress outIp(192, 168, 0, 102);
 
 const unsigned int outPort = 5000;
-const unsigned int inPort = 9000;
 
-EthernetServer server = EthernetServer(inPort);
+
+//EthernetServer server = EthernetServer(inPort);
 
 void setup() {
   Ethernet.begin(mac, ip);
 
-
   Serial.begin(115200);
-  //server.begin();
 
   // Start your preferred I2C object
   Wire.begin();
@@ -57,28 +55,48 @@ void setup() {
 
 
 void loop() {
-  Serial.println("Sending message");
-  sendTestMessage();
-  delay(1000);
+
+  checkCamera();
+
+  //  for (int i = 0; i < 64; i++) {
+  //    Serial.print(pixelTable[i]);
+  //    Serial.print(" ");
+  //  }
+  //  Serial.println(" ");
+  // delay(1000);
+
+  //  Serial.println("Sending message");
+
+
+
   //
   //  sendTestMessage2();
   //  delay(1000);
 
-  sendNamedMessage0();
+  for (int i = 0; i < 8; i++) {
+    sendNamedMessage0(i);
+    delay(10);
+  }
+
+
+  sendTestMessage();
   delay(10);
-  sendNamedMessage1();
-  delay(10);
-  sendNamedMessage2();
-  delay(10);
-  sendNamedMessage3();
-  delay(10);
-  sendNamedMessage4();
-  delay(10);
-  sendNamedMessage5();
-  delay(10);
-  sendNamedMessage6();
-  delay(10);
-  sendNamedMessage7();
+
+  //  sendNamedMessage0();
+  //  delay(10);
+  //  sendNamedMessage1();
+  //  delay(10);
+  //  sendNamedMessage2();
+  //  delay(10);
+  //  sendNamedMessage3();
+  //  delay(10);
+  //  sendNamedMessage4();
+  //  delay(10);
+  //  sendNamedMessage5();
+  //  delay(10);
+  //  sendNamedMessage6();
+  //  delay(10);
+  //  sendNamedMessage7();
   delay(1000);
 }
 
@@ -94,7 +112,7 @@ void checkCamera() {
 }
 
 void sendTestMessage() {
-  OSCMessage msg("/test/");
+  OSCMessage msg("/test");
   msg.add((int32_t)1);
   msg.add((int32_t) millis() );
   Udp.beginPacket(outIp, outPort);
@@ -105,103 +123,38 @@ void sendTestMessage() {
 
 
 
-void sendTestMessage2() {
-  for ( int j = 0; j < 8; j++) {
-    OSCMessage msg("/camera/");
-    for ( int i = 0; i < 8; i++) {
-      //msg.add((int32_t)testData[(j * 8) + i]);
-      msg.add((int32_t)i * j);
-    }
-    Udp.beginPacket(outIp, outPort);
-    msg.send(Udp); // send the bytes to the SLIP stream
-    Udp.endPacket(); // mark the end of the OSC Packet
-    msg.empty(); // free space occupied by message
-    delay(10);
-  }
-}
+//void sendTestMessage2() {
+//  for ( int j = 0; j < 8; j++) {
+//    OSCMessage msg("/camera");
+//    for ( int i = 0; i < 8; i++) {
+//      //msg.add((int32_t)testData[(j * 8) + i]);
+//      msg.add((int32_t)i * j);
+//    }
+//    Udp.beginPacket(outIp, outPort);
+//    msg.send(Udp); // send the bytes to the SLIP stream
+//    Udp.endPacket(); // mark the end of the OSC Packet
+//    msg.empty(); // free space occupied by message
+//    delay(10);
+//  }
+//}
 
-void sendNamedMessage0() {
-  OSCMessage msg("/camera/0");
-  for ( int i = 0; i < 8; i++) {
-    //msg.add((int32_t)testData[(j * 8) + i]);
-    msg.add((int32_t)i);
-  }
-  Udp.beginPacket(outIp, outPort);
-  msg.send(Udp); // send the bytes to the SLIP stream
-  Udp.endPacket(); // mark the end of the OSC Packet
-  msg.empty(); // free space occupied by message
-}
+void sendNamedMessage0(int val) {
+  //  //OSCMessage msg("/camera/0");
+  //  char charVal[5];
+  //  // convert 123 to string [buf]
+  //  itoa(val, charVal, 10);
+  //  Serial.println(charVal);
+  // // char * s = "/camera/" + charVal;
 
+  String s = "/camera/" + String(val);
 
-void sendNamedMessage1() {
-  OSCMessage msg("/camera/1");
-  for ( int i = 0; i < 8; i++) {
-    //msg.add((int32_t)testData[(j * 8) + i]);
-    msg.add((int32_t)i);
-  }
-  Udp.beginPacket(outIp, outPort);
-  msg.send(Udp); // send the bytes to the SLIP stream
-  Udp.endPacket(); // mark the end of the OSC Packet
-  msg.empty(); // free space occupied by message
-}
+  char c[10];
 
-void sendNamedMessage2() {
-  OSCMessage msg("/camera/2");
-  for ( int i = 0; i < 8; i++) {
-    //msg.add((int32_t)testData[(j * 8) + i]);
-    msg.add((int32_t)i);
-  }
-  Udp.beginPacket(outIp, outPort);
-  msg.send(Udp); // send the bytes to the SLIP stream
-  Udp.endPacket(); // mark the end of the OSC Packet
-  msg.empty(); // free space occupied by message
-}
-void sendNamedMessage3() {
-  OSCMessage msg("/camera/3");
-  for ( int i = 0; i < 8; i++) {
-    //msg.add((int32_t)testData[(j * 8) + i]);
-    msg.add((int32_t)i);
-  }
-  Udp.beginPacket(outIp, outPort);
-  msg.send(Udp); // send the bytes to the SLIP stream
-  Udp.endPacket(); // mark the end of the OSC Packet
-  msg.empty(); // free space occupied by message
-}
-void sendNamedMessage4() {
-  OSCMessage msg("/camera/4");
-  for ( int i = 0; i < 8; i++) {
-    //msg.add((int32_t)testData[(j * 8) + i]);
-    msg.add((int32_t)i);
-  }
-  Udp.beginPacket(outIp, outPort);
-  msg.send(Udp); // send the bytes to the SLIP stream
-  Udp.endPacket(); // mark the end of the OSC Packet
-  msg.empty(); // free space occupied by message
-}
-void sendNamedMessage5() {
-  OSCMessage msg("/camera/5");
-  for ( int i = 0; i < 8; i++) {
-    //msg.add((int32_t)testData[(j * 8) + i]);
-    msg.add((int32_t)i);
-  }
-  Udp.beginPacket(outIp, outPort);
-  msg.send(Udp); // send the bytes to the SLIP stream
-  Udp.endPacket(); // mark the end of the OSC Packet
-  msg.empty(); // free space occupied by message
-}
-void sendNamedMessage6() {
-  OSCMessage msg("/camera/6");
-  for ( int i = 0; i < 8; i++) {
-    //msg.add((int32_t)testData[(j * 8) + i]);
-    msg.add((int32_t)i);
-  }
-  Udp.beginPacket(outIp, outPort);
-  msg.send(Udp); // send the bytes to the SLIP stream
-  Udp.endPacket(); // mark the end of the OSC Packet
-  msg.empty(); // free space occupied by message
-}
-void sendNamedMessage7() {
-  OSCMessage msg("/camera/7");
+  strcpy(c, s.c_str());
+
+  Serial.println(c);
+  OSCMessage msg(c);
+
   for ( int i = 0; i < 8; i++) {
     //msg.add((int32_t)testData[(j * 8) + i]);
     msg.add((int32_t)i);
@@ -212,28 +165,83 @@ void sendNamedMessage7() {
   msg.empty(); // free space occupied by message
 }
 
-//void buttonPress(int i) {
-//  OSCMessage msg("/input/button");
-//  //Serial.print(i);
-//  msg.add((int32_t)stationId);
-//  msg.add((int32_t)i);
+//
+//void sendNamedMessage1() {
+//  OSCMessage msg("/camera/1");
+//  for ( int i = 0; i < 8; i++) {
+//    //msg.add((int32_t)testData[(j * 8) + i]);
+//    msg.add((int32_t)i);
+//  }
 //  Udp.beginPacket(outIp, outPort);
 //  msg.send(Udp); // send the bytes to the SLIP stream
 //  Udp.endPacket(); // mark the end of the OSC Packet
 //  msg.empty(); // free space occupied by message
-//  //delay(20);
 //}
 //
-//void sensorTouched(int sliderVal) {
-//  OSCMessage msg("/input/fader");
-//  msg.add((int32_t)stationId);
-//  msg.add((int32_t)sliderVal);
+//void sendNamedMessage2() {
+//  OSCMessage msg("/camera/2");
+//  for ( int i = 0; i < 8; i++) {
+//    //msg.add((int32_t)testData[(j * 8) + i]);
+//    msg.add((int32_t)i);
+//  }
 //  Udp.beginPacket(outIp, outPort);
 //  msg.send(Udp); // send the bytes to the SLIP stream
 //  Udp.endPacket(); // mark the end of the OSC Packet
 //  msg.empty(); // free space occupied by message
-//  // delay(20);
 //}
-
-
+//void sendNamedMessage3() {
+//  OSCMessage msg("/camera/3");
+//  for ( int i = 0; i < 8; i++) {
+//    //msg.add((int32_t)testData[(j * 8) + i]);
+//    msg.add((int32_t)i);
+//  }
+//  Udp.beginPacket(outIp, outPort);
+//  msg.send(Udp); // send the bytes to the SLIP stream
+//  Udp.endPacket(); // mark the end of the OSC Packet
+//  msg.empty(); // free space occupied by message
+//}
+//void sendNamedMessage4() {
+//  OSCMessage msg("/camera/4");
+//  for ( int i = 0; i < 8; i++) {
+//    //msg.add((int32_t)testData[(j * 8) + i]);
+//    msg.add((int32_t)i);
+//  }
+//  Udp.beginPacket(outIp, outPort);
+//  msg.send(Udp); // send the bytes to the SLIP stream
+//  Udp.endPacket(); // mark the end of the OSC Packet
+//  msg.empty(); // free space occupied by message
+//}
+//void sendNamedMessage5() {
+//  OSCMessage msg("/camera/5");
+//  for ( int i = 0; i < 8; i++) {
+//    //msg.add((int32_t)testData[(j * 8) + i]);
+//    msg.add((int32_t)i);
+//  }
+//  Udp.beginPacket(outIp, outPort);
+//  msg.send(Udp); // send the bytes to the SLIP stream
+//  Udp.endPacket(); // mark the end of the OSC Packet
+//  msg.empty(); // free space occupied by message
+//}
+//void sendNamedMessage6() {
+//  OSCMessage msg("/camera/6");
+//  for ( int i = 0; i < 8; i++) {
+//    //msg.add((int32_t)testData[(j * 8) + i]);
+//    msg.add((int32_t)i);
+//  }
+//  Udp.beginPacket(outIp, outPort);
+//  msg.send(Udp); // send the bytes to the SLIP stream
+//  Udp.endPacket(); // mark the end of the OSC Packet
+//  msg.empty(); // free space occupied by message
+//}
+//void sendNamedMessage7() {
+//  OSCMessage msg("/camera/7");
+//  for ( int i = 0; i < 8; i++) {
+//    //msg.add((int32_t)testData[(j * 8) + i]);
+//    msg.add((int32_t)i);
+//  }
+//  Udp.beginPacket(outIp, outPort);
+//  msg.send(Udp); // send the bytes to the SLIP stream
+//  Udp.endPacket(); // mark the end of the OSC Packet
+//  msg.empty(); // free space occupied by message
+//}
 

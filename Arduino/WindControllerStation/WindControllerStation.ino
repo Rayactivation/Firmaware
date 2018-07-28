@@ -49,7 +49,7 @@ float windSpeedMax = 32; // Wind speed in meters/sec corresponding to maximum vo
 int running;
 int windlowcnt;
 #define MAX_WIND_SPEED 3  // mph
-#define WIND_LOW_TIMEOUT 30  // seconds
+#define WIND_LOW_TIMEOUT 5  // seconds
 
 
 void setup()
