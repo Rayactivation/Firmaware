@@ -196,9 +196,9 @@ void blobDetect() {
   for (int i = 0; i < 32; i++) {
     for (int j = 0; j < 24; j++) {
       float pixel = mlx90640To[(i * 32) + (j * 24);
-       if (pixel > tempThreshold){
-        
-       }
+      if (pixel > tempThreshold) {
+
+      }
     }
   }
 }
