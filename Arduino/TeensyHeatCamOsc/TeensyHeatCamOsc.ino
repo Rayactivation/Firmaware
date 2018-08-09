@@ -51,20 +51,18 @@ byte mac[] = {
 //NUC address
 //IPAddress outIp(10, 0, 0, 10);
 //Tony Test Computer
-IPAddress outIp(10, 0, 0, 60);
+IPAddress outIp(10, 0, 0, 10);
 //Test local
 //IPAddress outIp(192, 168, 0, 102);
 
 const unsigned int outPort = 5000;
-
 const byte MLX90640_address = 0x33; //Default 7-bit unshifted address of the MLX90640
-
 #define TA_SHIFT 8 //Default shift for MLX90640 in open air
-
 float mlx90640To[768];
 int downSizedFrame[192];
-
 paramsMLX90640 mlx90640;
+
+int tempThreshold = 30;
 
 void setup()
 {
@@ -131,6 +129,7 @@ void loop()
 
   downSample();
   sendCamData();
+  sendCamDataHeat();
 
   delay(1000 - (stopTime - startTime));
 }
@@ -154,19 +153,6 @@ void sendTestMessage() {
   msg.empty(); // free space occupied by message
 }
 
-//int c = 1;
-//
-//void sendAll() {
-//  OSCMessage msg("/test");
-//  c = c + 10;
-//  for (int i = 0; i < c; i++) {
-//    msg.add((int32_t)mlx90640To[i]);
-//  }
-//  Udp.beginPacket(outIp, outPort);
-//  msg.send(Udp); // send the bytes to the SLIP stream
-//  Udp.endPacket(); // mark the end of the OSC Packet
-//  msg.empty(); // free space occupied by message
-//}
 
 void sendCamData() {
   OSCMessage msg("/camera");
@@ -177,8 +163,15 @@ void sendCamData() {
   msg.send(Udp); // send the bytes to the SLIP stream
   Udp.endPacket(); // mark the end of the OSC Packet
   msg.empty(); // free space occupied by message
+}
 
-
+void sendCamDataHeat() {
+  OSCMessage msg("/cameraHeatVal");
+  msg.add((int32_t)getHeatVal());
+  Udp.beginPacket(outIp, outPort);
+  msg.send(Udp); // send the bytes to the SLIP stream
+  Udp.endPacket(); // mark the end of the OSC Packet
+  msg.empty(); // free space occupied by message
 }
 
 void downSample() {
@@ -187,20 +180,31 @@ void downSample() {
   //      int
   //    }
   //  }
-  for (int i = 0; i < 192 / 4; i++) {
+  for (int i = 0; i < (768 / 4); i++) {
     downSizedFrame[i] = mlx90640To[i * 4];
   }
+}
+
+int getHeatVal() {
+  int heatCount = 0;
+  for (int i = 0; i < (192); i++) {
+    if (downSizedFrame[i] >= tempThreshold) {
+      heatCount++;
+    }
+  }
+  return heatCount;
 }
 
 void blobDetect() {
   for (int i = 0; i < 32; i++) {
     for (int j = 0; j < 24; j++) {
-      float pixel = mlx90640To[(i * 32) + (j * 24);
+      float pixel = mlx90640To[(i * 32) + (j * 24)];
       if (pixel > tempThreshold) {
 
       }
     }
   }
 }
+
 
 
