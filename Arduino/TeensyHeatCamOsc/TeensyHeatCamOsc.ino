@@ -51,7 +51,7 @@ byte mac[] = {
 //NUC address
 //IPAddress outIp(10, 0, 0, 10);
 //Tony Test Computer
-IPAddress outIp(10, 0, 0, 10);
+IPAddress outIp(10, 0, 0, 60);
 //Test local
 //IPAddress outIp(192, 168, 0, 102);
 
@@ -63,6 +63,7 @@ int downSizedFrame[192];
 paramsMLX90640 mlx90640;
 
 int tempThreshold = 30;
+int heatCount = 0;
 
 void setup()
 {
@@ -127,8 +128,9 @@ void loop()
   Serial.println("");
   //Serial.println(stopTime - startTime);
 
-  downSample();
-  sendCamData();
+  //downSample();
+  //sendCamData();
+  getHeatVal();
   sendCamDataHeat();
 
   delay(1000 - (stopTime - startTime));
@@ -167,7 +169,7 @@ void sendCamData() {
 
 void sendCamDataHeat() {
   OSCMessage msg("/cameraHeatVal");
-  msg.add((int32_t)getHeatVal());
+  msg.add((int32_t)heatCount);
   Udp.beginPacket(outIp, outPort);
   msg.send(Udp); // send the bytes to the SLIP stream
   Udp.endPacket(); // mark the end of the OSC Packet
@@ -185,14 +187,13 @@ void downSample() {
   }
 }
 
-int getHeatVal() {
-  int heatCount = 0;
-  for (int i = 0; i < (192); i++) {
-    if (downSizedFrame[i] >= tempThreshold) {
+void getHeatVal() {
+  heatCount = 0;
+  for (int i = 0; i < (768); i++) {
+    if (mlx90640To[i] >= tempThreshold) {
       heatCount++;
     }
   }
-  return heatCount;
 }
 
 void blobDetect() {
